@@ -7,12 +7,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #333;
-            --secondary-color: #666;
-            --accent-color: #000;
-            --bg-color: #f4f4f4;
-            --sidebar-bg: #2c3e50; /* Dark sidebar for contrast */
+            --sidebar-bg: #2c3e50;
             --sidebar-text: #ffffff;
+            --text-main: #333;
+            --text-secondary: #666;
+            --accent-blue: #a8d0e6;
         }
 
         * {
@@ -23,12 +22,16 @@
 
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--primary-color);
+            background-color: #ffffff;
+            color: var(--text-main);
             line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px;
+        }
+
+        /* Main Layout Grid - Full Screen */
+        .container {
+            display: grid;
+            grid-template-columns: 320px 1fr; /* Sidebar fixed width, content takes the rest */
+            min-height: 100vh;
         }
 
         /* PDF Download Button */
@@ -36,66 +39,48 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #007bff;
+            background-color: #333;
             color: white;
-            padding: 15px 25px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: transform 0.2s ease;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
             z-index: 1000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .download-btn:hover {
+            background-color: #000;
             transform: translateY(-2px);
-            background-color: #0056b3;
         }
 
-        /* Resume Container */
-        .resume {
-            background: white;
-            width: 100%;
-            max-width: 1000px;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            min-height: 1100px; /* Approx A4 height ratio */
-        }
-
-        /* Sidebar */
+        /* Sidebar Styling */
         .sidebar {
             background-color: var(--sidebar-bg);
             color: var(--sidebar-text);
-            padding: 40px 30px;
+            padding: 60px 40px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
-        }
-
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            background-color: #ddd;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: #555;
+            gap: 40px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto; /* scroll sidebar independently if needed */
         }
 
         .sidebar-section h3 {
             font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 10px;
-            margin-bottom: 15px;
-            color: #a8d0e6;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+            font-weight: 600;
         }
 
         .sidebar-section ul {
@@ -103,139 +88,155 @@
         }
 
         .sidebar-section li {
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 10px;
+            font-size: 15px;
             color: #ecf0f1;
+            font-weight: 300;
         }
 
         .contact-info div {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            font-size: 13px;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 300;
         }
 
         .contact-info i {
             width: 20px;
-            color: #a8d0e6;
+            color: var(--accent-blue);
         }
 
-        /* Main Content */
+        /* Main Content Styling */
         .main-content {
-            padding: 40px 50px;
+            padding: 80px 10%; /* More breathing room */
+            max-width: 1200px; /* Prevent text lines from getting too long on wide screens */
         }
 
         .header {
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .header h1 {
-            font-size: 36px;
+            font-size: 48px; /* Larger title */
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            color: #222;
         }
 
         .header h2 {
-            font-size: 16px;
-            color: var(--secondary-color);
-            font-weight: 500;
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .section {
-            margin-bottom: 35px;
+            margin-bottom: 50px;
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 20px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             font-weight: 700;
+            margin-bottom: 30px;
+            color: #222;
             border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            padding-bottom: 15px;
+            display: inline-block;
         }
 
         .job {
-            margin-bottom: 25px;
+            margin-bottom: 40px;
         }
 
         .job-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .job-company {
             font-weight: 800;
-            font-size: 16px;
+            font-size: 18px;
+            color: #222;
         }
 
         .job-role {
-            font-style: italic;
-            color: #555;
-            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-top: 4px;
         }
 
         .job-date {
             font-size: 14px;
-            color: #888;
-            font-weight: 500;
+            color: #999;
+            font-weight: 600;
+            white-space: nowrap; /* Prevent date breaking */
         }
 
         .job ul {
-            list-style-type: disc;
-            margin-left: 20px;
+            list-style-type: none; /* Cleaner look without bullets */
+            margin-top: 15px;
         }
 
         .job li {
-            margin-bottom: 5px;
-            font-size: 14px;
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            font-size: 16px;
             color: #444;
+            line-height: 1.7;
+        }
+
+        .job li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #ccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                height: auto;
+                position: relative;
+                padding: 40px 30px;
+            }
+            .main-content {
+                padding: 40px 30px;
+            }
+            .header h1 {
+                font-size: 36px;
+            }
         }
 
         /* Print Styles */
         @media print {
-            body {
-                background: white;
+            .download-btn { display: none; }
+            .container { display: block; }
+            .sidebar { 
+                position: static; 
+                height: auto; 
+                background: #fff !important; 
+                color: #000 !important; 
                 padding: 0;
+                margin-bottom: 30px;
+                border-bottom: 1px solid #ccc;
             }
-            .download-btn {
-                display: none;
-            }
-            .resume {
-                box-shadow: none;
-                width: 100%;
-                max-width: 100%;
-                grid-template-columns: 28% 72%; /* Adjust for print ratio */
-            }
-            .sidebar {
-                background-color: #2c3e50 !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact;
-            }
-            .sidebar-section h3 {
-                color: #a8d0e6 !important;
-            }
-            .contact-info i {
-                color: #a8d0e6 !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .resume {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                padding: 30px;
-            }
-            .main-content {
-                padding: 30px;
-            }
+            .sidebar-section h3 { color: #000 !important; border-bottom: 1px solid #000; }
+            .contact-info i, .sidebar-section li { color: #000 !important; }
+            .main-content { padding: 0; max-width: 100%; }
+            body { font-size: 12pt; }
         }
     </style>
 </head>
@@ -245,7 +246,7 @@
         <i class="fas fa-file-pdf"></i> Download PDF
     </button>
 
-    <div class="resume">
+    <div class="container">
         <aside class="sidebar">
             
             <div class="sidebar-section">
@@ -260,9 +261,9 @@
 
             <div class="sidebar-section">
                 <h3>Education</h3>
-                <div style="margin-bottom: 10px;">
-                    <strong style="color:white;">Shenkar College of Engineering and Design</strong><br>
-                    <span style="font-size: 13px; color: #ccc;">2008 - 2013</span>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color:white; font-weight: 500;">Shenkar College of Engineering and Design</strong><br>
+                    <span style="font-size: 13px; opacity: 0.7;">2008 - 2013</span>
                 </div>
                 <ul>
                     <li>Bachelor Of Design (B. Des.)</li>
@@ -295,9 +296,9 @@
 
             <div class="sidebar-section">
                 <h3>Military Service</h3>
-                <div style="margin-bottom: 5px;">
-                    <strong style="color:white;">Special Forces Unit</strong><br>
-                    <span style="font-size: 13px; color: #ccc;">2002 - 2005</span>
+                <div style="margin-bottom: 10px;">
+                    <strong style="color:white; font-weight: 500;">Special Forces Unit</strong><br>
+                    <span style="font-size: 13px; opacity: 0.7;">2002 - 2005</span>
                 </div>
                 <ul>
                     <li>Served as a combat soldier.</li>
@@ -323,10 +324,10 @@
                         <div class="job-date">2021 - Present</div>
                     </div>
                     <ul>
-                        <li>Led UX/UI for Redis Cloud, designing new features and improving existing ones based on the product roadmap.</li>
-                        <li>Owned the product-side design system: components, tokens, behavior & visual styles, and the shared Figma library for the design team.</li>
-                        <li>Pitched, defined, and drove a unified design system that replaced three separate legacy UI stacks in collaboration with dev infra.</li>
-                        <li>Worked in a complex, security-heavy, legacy environment, shipping improvements in phases and balancing constraints with UX best practices.</li>
+                        [cite_start]<li>Led UX/UI for Redis Cloud, designing new features and improving existing ones based on the product roadmap. [cite: 5]</li>
+                        [cite_start]<li>Owned the product-side design system: components, tokens, behavior & visual styles, and the shared Figma library for the design team. [cite: 7]</li>
+                        [cite_start]<li>Pitched, defined, and drove a unified design system that replaced three separate legacy UI stacks in collaboration with dev infra. [cite: 10]</li>
+                        [cite_start]<li>Worked in a complex, security-heavy, legacy environment, shipping improvements in phases and balancing constraints with UX best practices. [cite: 12]</li>
                     </ul>
                 </div>
 
@@ -339,8 +340,8 @@
                         <div class="job-date">2016 - 2021</div>
                     </div>
                     <ul>
-                        <li>Designed complex on-premise systems for Israeli defense organizations (IDF, IAF, IAF Satellite Systems Wing, Elbit Systems).</li>
-                        <li>Lead UX workflows end-to-end: flows, interaction patterns, and visual language for mission-critical tools.</li>
+                        [cite_start]<li>Designed complex on-premise systems for Israeli defense organizations (IDF, IAF, IAF Satellite Systems Wing, Elbit Systems). [cite: 18]</li>
+                        [cite_start]<li>Lead UX workflows end-to-end: flows, interaction patterns, and visual language for mission-critical tools. [cite: 21]</li>
                     </ul>
                 </div>
 
@@ -353,8 +354,8 @@
                         <div class="job-date">2016 - 2021</div>
                     </div>
                     <ul>
-                        <li>Guide product teams in moving from legacy tools to a Sketch-based design workflow.</li>
-                        <li>Set up shared libraries, components, and processes so designers and developers can work from a single source of truth.</li>
+                        [cite_start]<li>Guide product teams in moving from legacy tools to a Sketch-based design workflow. [cite: 27]</li>
+                        [cite_start]<li>Set up shared libraries, components, and processes so designers and developers can work from a single source of truth. [cite: 28]</li>
                     </ul>
                 </div>
 
@@ -367,9 +368,9 @@
                         <div class="job-date">2016 - 2017</div>
                     </div>
                     <ul>
-                        <li>Redesigned the Paybox mobile app for iOS and Android, improving key flows and overall usability.</li>
-                        <li>Designed new features aligned with each platform's patterns and guidelines.</li>
-                        <li>Updated the visual language to a cleaner, more modern interface.</li>
+                        [cite_start]<li>Redesigned the Paybox mobile app for iOS and Android, improving key flows and overall usability. [cite: 35]</li>
+                        [cite_start]<li>Designed new features aligned with each platform's patterns and guidelines. [cite: 37]</li>
+                        [cite_start]<li>Updated the visual language to a cleaner, more modern interface. [cite: 38]</li>
                     </ul>
                 </div>
 
@@ -382,8 +383,8 @@
                         <div class="job-date">2014 - 2016</div>
                     </div>
                     <ul>
-                        <li>Redesigned the SkyGiraffe product across mobile, tablet, and web to support new use cases and capabilities.</li>
-                        <li>Evolved the visual language to a unified, product-wide design system.</li>
+                        [cite_start]<li>Redesigned the SkyGiraffe product across mobile, tablet, and web to support new use cases and capabilities. [cite: 48]</li>
+                        [cite_start]<li>Evolved the visual language to a unified, product-wide design system. [cite: 49]</li>
                     </ul>
                 </div>
 
@@ -396,8 +397,8 @@
                         <div class="job-date">2014 - 2016</div>
                     </div>
                     <ul>
-                        <li>Led UX and UI for multiple mobile app projects from concept through delivery.</li>
-                        <li>Produced user flows, high-fidelity wireframes, and visual directions for client approvals.</li>
+                        [cite_start]<li>Led UX and UI for multiple mobile app projects from concept through delivery. [cite: 53]</li>
+                        [cite_start]<li>Produced user flows, high-fidelity wireframes, and visual directions for client approvals. [cite: 54]</li>
                     </ul>
                 </div>
 
@@ -410,9 +411,9 @@
                         <div class="job-date">2013 - 2014</div>
                     </div>
                     <ul>
-                        <li>Designed the STOREE marketing website and main POS product experience.</li>
-                        <li>Created e-commerce website templates as part of the core product offering.</li>
-                        <li>Defined interaction patterns and UI elements to keep the POS and web templates visually aligned.</li>
+                        [cite_start]<li>Designed the STOREE marketing website and main POS product experience. [cite: 58]</li>
+                        [cite_start]<li>Created e-commerce website templates as part of the core product offering. [cite: 59]</li>
+                        [cite_start]<li>Defined interaction patterns and UI elements to keep the POS and web templates visually aligned. [cite: 60]</li>
                     </ul>
                 </div>
 
